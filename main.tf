@@ -12,8 +12,8 @@ module "nat_gateway" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location_primary
 
-  nat_gateway_name = "${var.project_name}-${var.environment}-natgw"
-  public_ip_name   = "${var.project_name}-${var.environment}-natgw-pip"
+  nat_gateway_name = "${var.project_name}-natgw"
+  public_ip_name   = "${var.project_name}-natgw-pip"
 
   tags = var.tags
 }
@@ -32,6 +32,18 @@ module "networking" {
   private_subnets = var.private_subnets
 
   nat_gateway_id = module.nat_gateway.nat_gateway_id
+
+  tags = var.tags
+}
+
+module "acr" {
+  source = "./modules/acr"
+
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.location_primary
+
+acr_name = replace("${var.project_name}acr", "-", "")
+
 
   tags = var.tags
 }
