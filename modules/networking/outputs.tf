@@ -17,3 +17,4 @@ output "private_subnet_primary_id" {
 output "private_subnet_secondary_id" {
   value = azurerm_subnet.private_secondary.id
 }
+

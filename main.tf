@@ -47,3 +47,51 @@ acr_name = replace("${var.project_name}acr", "-", "")
 
   tags = var.tags
 }
+module "container_app" {
+  source = "./modules/container-app"
+
+  name                = "hello-world-app"
+  location            = var.location_primary
+  resource_group_name = azurerm_resource_group.rg.name
+ subnet_id = module.networking.private_subnet_primary_id
+
+  acr_login_server = module.acr.acr_login_server
+  acr_username     = module.acr.acr_admin_username
+  acr_password     = module.acr.acr_admin_password
+  tags = local.tags
+}
+
+
+resource "azurerm_public_ip" "appgw_pip" {
+  name                = "appgw-pip"
+  location            = var.location_primary
+  resource_group_name = azurerm_resource_group.rg.name
+
+  allocation_method = "Static"
+  sku               = "Standard"
+
+  tags = local.tags
+}
+module "application_gateway" {
+  source = "./modules/app-gateway"
+
+  name                = "static-website-agw"
+  location            = var.location_primary
+  resource_group_name = azurerm_resource_group.rg.name
+
+  subnet_id    = module.networking.public_subnet_primary_id
+  public_ip_id = azurerm_public_ip.appgw_pip.id
+  backend_fqdn = "example.com"
+
+  log_analytics_workspace_id = module.log_analytics.id
+  tags                       = local.tags
+}
+
+module "log_analytics" {
+  source = "./modules/log-analytics"
+
+  name                = "law-static-website"
+  location            = var.location_primary
+  resource_group_name = azurerm_resource_group.rg.name
+  tags                = local.tags
+}
