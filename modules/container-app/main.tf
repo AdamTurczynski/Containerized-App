@@ -1,18 +1,15 @@
-resource "azurerm_log_analytics_workspace" "law" {
-  name                = "${var.name}-law"
-location = var.location
 
-  resource_group_name = var.resource_group_name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
-
-  tags = var.tags
-}
 resource "azurerm_container_app_environment" "env" {
+    timeouts {
+    create = "90m"
+    update = "90m"
+    delete = "90m"
+  }
   name                       = "${var.name}-env"
   location                   = var.location
   resource_group_name        = var.resource_group_name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
+log_analytics_workspace_id = var.log_analytics_workspace_id
+
 
   infrastructure_subnet_id = var.subnet_id
 
@@ -49,7 +46,8 @@ resource "azurerm_container_app" "app" {
   template {
     container {
       name   = "hello-world"
-      image  = "${var.acr_login_server}/hello-world:1.0"
+      image = "${var.acr_login_server}/hello-aca:v1"
+
 
       cpu    = 0.25
       memory = "0.5Gi"
@@ -63,4 +61,5 @@ resource "azurerm_container_app" "app" {
 
   tags = var.tags
 }
+
 

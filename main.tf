@@ -27,10 +27,9 @@ module "networking" {
 
   vnet_name   = var.vnet_name
   vnet_cidr   = var.vnet_cidr
-
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
-
+  containerapps_subnet  = var.containerapps_subnet
   nat_gateway_id = module.nat_gateway.nat_gateway_id
 
   tags = var.tags
@@ -53,12 +52,12 @@ module "container_app" {
   name                = "hello-world-app"
   location            = var.location_primary
   resource_group_name = azurerm_resource_group.rg.name
- subnet_id = module.networking.private_subnet_primary_id
-
+  subnet_id = module.networking.containerapps_subnet_id
   acr_login_server = module.acr.acr_login_server
   acr_username     = module.acr.acr_admin_username
   acr_password     = module.acr.acr_admin_password
   tags = local.tags
+  log_analytics_workspace_id = module.log_analytics.id
 }
 
 

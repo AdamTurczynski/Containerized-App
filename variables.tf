@@ -3,11 +3,6 @@ variable "project_name" {
   type        = string
 }
 
-variable "environment" {
-  description = "Environment name (e.g. dev, prod)"
-  type        = string
-  default     = "dev"
-}
 
 variable "resource_group_name" {
   description = "Name of the resource group where resources will be created"
@@ -48,4 +43,8 @@ variable "tags" {
   description = "Tags applied to all resources"
   type        = map(string)
   default     = {}
+}
+variable "containerapps_subnet" {
+  description = "CIDR for Container Apps dedicated subnet"
+  type        = string
 }

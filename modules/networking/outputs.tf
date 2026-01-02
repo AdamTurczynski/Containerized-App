@@ -18,3 +18,6 @@ output "private_subnet_secondary_id" {
   value = azurerm_subnet.private_secondary.id
 }
 
+output "containerapps_subnet_id" {
+  value = azurerm_subnet.containerapps.id
+}

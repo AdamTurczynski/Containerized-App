@@ -43,3 +43,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "containerapps_subnet" {
+  description = "CIDR for Container Apps subnet"
+  type        = string
+}

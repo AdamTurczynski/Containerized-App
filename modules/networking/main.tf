@@ -47,3 +47,9 @@ resource "azurerm_subnet_nat_gateway_association" "secondary" {
   subnet_id      = azurerm_subnet.private_secondary.id
   nat_gateway_id = var.nat_gateway_id
 }
+resource "azurerm_subnet" "containerapps" {
+  name                 = "${var.vnet_name}-containerapps"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = [var.containerapps_subnet]
+}
