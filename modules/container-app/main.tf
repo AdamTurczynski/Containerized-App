@@ -24,7 +24,7 @@ resource "azurerm_container_app" "app" {
   ingress {
     external_enabled = false
     target_port      = 8080
-    transport        = "auto"
+    transport        = "http"
 
     traffic_weight {
       percentage      = 100
@@ -44,7 +44,10 @@ resource "azurerm_container_app" "app" {
   }
 
   template {
+      min_replicas = 1
+  max_replicas = 1
     container {
+      
       name   = "hello-world"
       image = "${var.acr_login_server}/hello-aca:v1"
 

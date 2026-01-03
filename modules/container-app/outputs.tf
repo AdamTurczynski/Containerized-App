@@ -1,3 +1,3 @@
-output "container_app_ingress_fqdn" {
+output "ingress_fqdn" {
   value = azurerm_container_app.app.ingress[0].fqdn
 }

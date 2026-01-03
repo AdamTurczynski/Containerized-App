@@ -80,7 +80,7 @@ module "application_gateway" {
 
   subnet_id    = module.networking.public_subnet_primary_id
   public_ip_id = azurerm_public_ip.appgw_pip.id
-  backend_fqdn = "example.com"
+  backend_fqdn = module.container_app.ingress_fqdn
 
   log_analytics_workspace_id = module.log_analytics.id
   tags                       = local.tags

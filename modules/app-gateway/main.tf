@@ -34,7 +34,7 @@ ssl_policy {
 
   probe {
     name                = "health-probe"
-    protocol            = "Http"
+    protocol            = "Https"
     path                = "/health"
     interval            = 30
     timeout             = 30
@@ -48,11 +48,12 @@ ssl_policy {
 
   backend_http_settings {
     name                  = "http-settings-8080"
-    protocol              = "Http"
-    port                  = 8080
+    protocol              = "Https"
+    port                  = 443
     request_timeout       = 30
+  pick_host_name_from_backend_address = false
+  host_name                      = var.backend_fqdn
       cookie_based_affinity = "Disabled"
-    pick_host_name_from_backend_address = true
     probe_name            = "health-probe"
   }
 
