@@ -29,12 +29,12 @@ ssl_policy {
 
   backend_address_pool {
     name  = "backend-pool"
-    fqdns = [var.backend_fqdn]
+    fqdns = ["hello-world-app.redpebble-8ab64578.westeurope.azurecontainerapps.io"]
   }
 
   probe {
     name                = "health-probe"
-    protocol            = "Https"
+    protocol            = "Http"
     path                = "/health"
     interval            = 30
     timeout             = 30
@@ -48,11 +48,10 @@ ssl_policy {
 
   backend_http_settings {
     name                  = "http-settings-8080"
-    protocol              = "Https"
-    port                  = 443
+    protocol              = "Http"
+    port                  = 80
     request_timeout       = 30
-  pick_host_name_from_backend_address = false
-  host_name                      = var.backend_fqdn
+  pick_host_name_from_backend_address = true
       cookie_based_affinity = "Disabled"
     probe_name            = "health-probe"
   }
