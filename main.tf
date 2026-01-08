@@ -25,12 +25,12 @@ module "networking" {
   location_primary    = var.location_primary
   location_secondary  = var.location_secondary
 
-  vnet_name   = var.vnet_name
-  vnet_cidr   = var.vnet_cidr
-  public_subnets  = var.public_subnets
-  private_subnets = var.private_subnets
-  containerapps_subnet  = var.containerapps_subnet
-  nat_gateway_id = module.nat_gateway.nat_gateway_id
+  vnet_name            = var.vnet_name
+  vnet_cidr            = var.vnet_cidr
+  public_subnets       = var.public_subnets
+  private_subnets      = var.private_subnets
+  containerapps_subnet = var.containerapps_subnet
+  nat_gateway_id       = module.nat_gateway.nat_gateway_id
 
   tags = var.tags
 }
@@ -41,7 +41,7 @@ module "acr" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.location_primary
 
-acr_name = replace("${var.project_name}acr", "-", "")
+  acr_name = replace("${var.project_name}acr", "-", "")
 
 
   tags = var.tags
@@ -49,14 +49,14 @@ acr_name = replace("${var.project_name}acr", "-", "")
 module "container_app" {
   source = "./modules/container-app"
 
-  name                = "hello-world-app"
-  location            = var.location_primary
-  resource_group_name = azurerm_resource_group.rg.name
-  subnet_id = module.networking.containerapps_subnet_id
-  acr_login_server = module.acr.acr_login_server
-  acr_username     = module.acr.acr_admin_username
-  acr_password     = module.acr.acr_admin_password
-  tags = local.tags
+  name                       = "hello-world-app"
+  location                   = var.location_primary
+  resource_group_name        = azurerm_resource_group.rg.name
+  subnet_id                  = module.networking.containerapps_subnet_id
+  acr_login_server           = module.acr.acr_login_server
+  acr_username               = module.acr.acr_admin_username
+  acr_password               = module.acr.acr_admin_password
+  tags                       = local.tags
   log_analytics_workspace_id = module.log_analytics.id
 }
 

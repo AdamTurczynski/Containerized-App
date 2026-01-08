@@ -29,7 +29,7 @@ ssl_policy {
 
   backend_address_pool {
     name  = "backend-pool"
-    fqdns = ["hello-world-app.redpebble-8ab64578.westeurope.azurecontainerapps.io"]
+    fqdns = ["hello-world-app.icygrass-c353a53a.westeurope.azurecontainerapps.io"]
   }
 
   probe {
