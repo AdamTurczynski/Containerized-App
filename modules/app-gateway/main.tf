@@ -40,7 +40,7 @@ ssl_certificate {
 
   probe {
     name                = "health-probe"
-    protocol            = "Http"
+    protocol            = "Https"
     path                = "/health"
     interval            = 30
     timeout             = 30
@@ -54,8 +54,8 @@ ssl_certificate {
 
   backend_http_settings {
     name                  = "http-settings-8080"
-    protocol              = "Http"
-    port                  = 80
+    protocol              = "Https"
+    port                  = 443
     request_timeout       = 30
   pick_host_name_from_backend_address = true
       cookie_based_affinity = "Disabled"
