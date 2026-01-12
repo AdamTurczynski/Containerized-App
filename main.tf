@@ -84,7 +84,7 @@ module "application_gateway" {
 
   log_analytics_workspace_id = module.log_analytics.id
   tags                       = local.tags
-  ssl_cert_password="root"
+  ssl_cert_password          = "root"
 }
 
 module "log_analytics" {

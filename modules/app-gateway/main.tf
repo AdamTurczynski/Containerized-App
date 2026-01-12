@@ -25,7 +25,7 @@ ssl_certificate {
 
   frontend_port {
     name = "frontend-port-443"
-    port = 443
+    port = 80
   }
 
   frontend_ip_configuration {
@@ -40,7 +40,7 @@ ssl_certificate {
 
   probe {
     name                = "health-probe"
-    protocol            = "Https"
+    protocol            = "Http"
     path                = "/health"
     interval            = 30
     timeout             = 30
@@ -54,8 +54,8 @@ ssl_certificate {
 
   backend_http_settings {
     name                  = "http-settings-8080"
-    protocol              = "Https"
-    port                  = 443
+    protocol              = "Http"
+    port                  = 80
     request_timeout       = 30
   pick_host_name_from_backend_address = true
       cookie_based_affinity = "Disabled"
@@ -66,8 +66,8 @@ ssl_certificate {
     name                           = "http-listener-443"
     frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "frontend-port-443"
-    protocol                       = "Https"
-      ssl_certificate_name           = "appgw-cert"
+    protocol                       = "Http"
+    #  ssl_certificate_name           = "appgw-cert"
   }
 
   request_routing_rule {
