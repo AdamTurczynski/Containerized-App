@@ -31,3 +31,7 @@ variable "tags" {
 variable "log_analytics_workspace_id" {
   type = string
 }
+variable "ssl_cert_password" {
+  type      = string
+  sensitive = true
+}

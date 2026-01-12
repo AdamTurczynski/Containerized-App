@@ -12,14 +12,20 @@ ssl_policy {
   policy_type          = "Predefined"
   policy_name          = "AppGwSslPolicy20220101"
 }   
+ssl_certificate {
+  name     = "appgw-cert"
+  data     = filebase64("${path.module}/certs/appgw.pfx")
+  password = var.ssl_cert_password
+}
+
   gateway_ip_configuration {
     name      = "gateway-ipcfg"
     subnet_id = var.subnet_id
   }
 
   frontend_port {
-    name = "frontend-port-80"
-    port = 80
+    name = "frontend-port-443"
+    port = 443
   }
 
   frontend_ip_configuration {
@@ -29,12 +35,12 @@ ssl_policy {
 
   backend_address_pool {
     name  = "backend-pool"
-    fqdns = ["hello-world-app.icygrass-c353a53a.westeurope.azurecontainerapps.io"]
+    fqdns = ["hello-world-app.bluecliff-246859e9.westeurope.azurecontainerapps.io"]
   }
 
   probe {
     name                = "health-probe"
-    protocol            = "Http"
+    protocol            = "Https"
     path                = "/health"
     interval            = 30
     timeout             = 30
@@ -48,8 +54,8 @@ ssl_policy {
 
   backend_http_settings {
     name                  = "http-settings-8080"
-    protocol              = "Http"
-    port                  = 80
+    protocol              = "Https"
+    port                  = 443
     request_timeout       = 30
   pick_host_name_from_backend_address = true
       cookie_based_affinity = "Disabled"
@@ -57,16 +63,17 @@ ssl_policy {
   }
 
   http_listener {
-    name                           = "http-listener-80"
+    name                           = "http-listener-443"
     frontend_ip_configuration_name = "frontend-ip"
-    frontend_port_name             = "frontend-port-80"
-    protocol                       = "Http"
+    frontend_port_name             = "frontend-port-443"
+    protocol                       = "Https"
+      ssl_certificate_name           = "appgw-cert"
   }
 
   request_routing_rule {
-    name                       = "routing-rule"
+    name                       = "routing-rule-https"
     rule_type                  = "Basic"
-    http_listener_name         = "http-listener-80"
+    http_listener_name         = "http-listener-443"
     backend_address_pool_name  = "backend-pool"
     backend_http_settings_name = "http-settings-8080"
     priority                   = 100
