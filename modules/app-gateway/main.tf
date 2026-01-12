@@ -25,7 +25,7 @@ ssl_certificate {
 
   frontend_port {
     name = "frontend-port-443"
-    port = 80
+    port = 443
   }
 
   frontend_ip_configuration {
@@ -66,8 +66,8 @@ ssl_certificate {
     name                           = "http-listener-443"
     frontend_ip_configuration_name = "frontend-ip"
     frontend_port_name             = "frontend-port-443"
-    protocol                       = "Http"
-    #  ssl_certificate_name           = "appgw-cert"
+    protocol                       = "Https"
+      ssl_certificate_name           = "appgw-cert"
   }
 
   request_routing_rule {
